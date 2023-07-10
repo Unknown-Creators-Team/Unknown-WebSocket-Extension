@@ -4,7 +4,7 @@
 		"name": "Unknown WebSocket Extension",
 		"description": "UWS Extension",
 		"uuid": "c8601f06-5b16-480e-81b2-8152442ce1ed",
-		"version": [ 1, 0, 0 ],
+		"version": [ 1, 0, 1 ],
 		"min_engine_version": [ 1, 19, 0 ]
 	},
 	"metadata": {
@@ -15,13 +15,13 @@
 		{
 			"type": "data",
 			"uuid": "7a19aed9-ef10-48f9-95bd-6ad35afc347b",
-			"version": [ 1, 0, 0 ]
+			"version": [ 1, 0, 1 ]
 		},
 		{
 			"language": "javascript",
 			"type": "script",
 			"uuid": "0cd40480-6b29-4645-bae6-282a43df5dcb",
-			"version": [ 1, 0, 0 ],
+			"version": [ 1, 0, 1 ],
 			"entry": "scripts/index.js"
 		}
 	],

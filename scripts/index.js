@@ -7,11 +7,15 @@ world.afterEvents.worldInitialize.subscribe((worldInitialize) => {
     const define = new Minecraft.DynamicPropertiesDefinition();
 
     define.defineBoolean("sendDyingMessage");
+    define.defineString("dyingMessageColor", 1);
 
     worldInitialize.propertyRegistry.registerWorldDynamicProperties(define);
 
     if (world.getDynamicProperty("sendDyingMessage") === undefined)
         world.setDynamicProperty("sendDyingMessage", true);
+
+    if (world.getDynamicProperty("dyingMessageColor") === undefined)
+        world.setDynamicProperty("dyingMessageColor", "r");
 });
 
 system.runInterval(() => {
@@ -26,14 +30,14 @@ world.afterEvents.entityHurt.subscribe((entityHurt) => {
     const { hurtEntity: player, damageSource, damage } = entityHurt;
     if (!(player instanceof Minecraft.Player)) return;
 
-    console.warn(player.getComponent("minecraft:health").current, damage)
+    
     if (player.getComponent("minecraft:health").current > 0) return;
     const { cause, damagingEntity: entity, damagingProjectile: projectile } = damageSource;
     let entityId = undefined, entityName = undefined, projectileName = undefined, entityType = undefined, trans = "death.attack.generic", with_ = [];
     try { entityId = entity?.typeId} catch {}
     try { entityName = entity?.name || entity?.typeId} catch {}
     try { projectileName = projectile?.typeId} catch {}
-    console.warn(cause, entityId, projectileName);
+    
     
     if (entityId && entityId.includes("minecraft:")) {
         if (entityId === "minecraft:player") entityType = "player";
@@ -51,8 +55,7 @@ world.afterEvents.entityHurt.subscribe((entityHurt) => {
         };
     }
     try { trans = death[cause][entityType][projectileName] } catch { with_ = [player.nameTag] }
-    console.warn(cause, entityType, projectileName);
-    player.runCommandAsync(`tellraw @a ${JSON.stringify({rawtext: [{translate: trans, with: with_}]})}`)
+    player.runCommandAsync(`tellraw @a ${JSON.stringify({rawtext: [{text: "§" + world.getDynamicProperty("dyingMessageColor")},{translate: trans, with: with_}]})}`)
 });
 
 system.events.scriptEventReceive.subscribe(
@@ -66,6 +69,13 @@ system.events.scriptEventReceive.subscribe(
                 sendMsg(`send_dying_message has been set to ${bool}.`);
                 world.getDimension("overworld").runCommandAsync(`gamerule showdeathmessages ${!bool}`);
             } else sendMsg(`send_dying_message is now ${world.getDynamicProperty("sendDyingMessage")}.`, sourceEntity);
+        }
+
+        if (id === "uwse:dying_message_color") {
+            if (message.length === 1) {
+                world.setDynamicProperty("dyingMessageColor", message);
+                sendMsg(`dying_message_color has been set to §${message}THIS§r.`);
+            } else sendMsg(`dying_message_color is now §${world.getDynamicProperty("dyingMessageColor")}THIS§r.`, sourceEntity);
         }
     },
     { namespaces: ["uwse"] }
