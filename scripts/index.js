@@ -6,16 +6,10 @@ const { world, system } = Minecraft;
 world.afterEvents.worldInitialize.subscribe((worldInitialize) => {
     const define = new Minecraft.DynamicPropertiesDefinition();
 
-    define.defineBoolean("sendDyingMessage");
-    define.defineString("dyingMessageColor", 1);
+    define.defineBoolean("sendDyingMessage", true);
+    define.defineString("dyingMessageColor", 1, "r");
 
     worldInitialize.propertyRegistry.registerWorldDynamicProperties(define);
-
-    if (world.getDynamicProperty("sendDyingMessage") === undefined)
-        world.setDynamicProperty("sendDyingMessage", true);
-
-    if (world.getDynamicProperty("dyingMessageColor") === undefined)
-        world.setDynamicProperty("dyingMessageColor", "r");
 });
 
 system.runInterval(() => {
@@ -29,15 +23,14 @@ world.afterEvents.entityHurt.subscribe((entityHurt) => {
 
     const { hurtEntity: player, damageSource, damage } = entityHurt;
     if (!(player instanceof Minecraft.Player)) return;
-
     
-    if (player.getComponent("minecraft:health").current > 0) return;
+    
+    if (player.getComponent("health").currentValue > 0) return;
     const { cause, damagingEntity: entity, damagingProjectile: projectile } = damageSource;
     let entityId = undefined, entityName = undefined, projectileName = undefined, entityType = undefined, trans = "death.attack.generic", with_ = [];
     try { entityId = entity?.typeId} catch {}
     try { entityName = entity?.name || entity?.typeId} catch {}
     try { projectileName = projectile?.typeId} catch {}
-    
     
     if (entityId && entityId.includes("minecraft:")) {
         if (entityId === "minecraft:player") entityType = "player";
@@ -58,7 +51,7 @@ world.afterEvents.entityHurt.subscribe((entityHurt) => {
     player.runCommandAsync(`tellraw @a ${JSON.stringify({rawtext: [{text: "§" + world.getDynamicProperty("dyingMessageColor")},{translate: trans, with: with_}]})}`)
 });
 
-system.events.scriptEventReceive.subscribe(
+system.afterEvents.scriptEventReceive.subscribe(
     (scriptEventReceive) => {
         const { id, message, sourceEntity } = scriptEventReceive;
 

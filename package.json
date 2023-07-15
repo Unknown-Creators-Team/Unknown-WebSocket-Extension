@@ -1,0 +1,19 @@
+{
+  "name": "unknown-websocket-extension",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Unknown-Creators-Team/Unknown-WebSocket-Extension.git"
+  },
+  "author": "Nano191225",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Unknown-Creators-Team/Unknown-WebSocket-Extension/issues"
+  },
+  "homepage": "https://github.com/Unknown-Creators-Team/Unknown-WebSocket-Extension#readme"
+}

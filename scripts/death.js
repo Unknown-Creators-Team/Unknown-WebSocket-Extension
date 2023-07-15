@@ -124,6 +124,11 @@ export default
             undefined: "death.attack.freeze"
         }
     },
+    lightning: {
+        undefined: {
+            undefined: "death.attack.lightningBolt"
+        }
+    },
     undefined: {
         entity: {
             undefined: "death.attack.sonicBoom"
