@@ -12,7 +12,7 @@
 ```
 /scriptevent uwse:send_dying_message true
 ```
-キルログを送信いないようにします。
+キルログを送信しないようにします。
 ```
 /scriptevent uwse:send_dying_message false
 ```
