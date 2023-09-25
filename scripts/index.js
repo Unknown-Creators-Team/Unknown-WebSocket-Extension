@@ -24,12 +24,12 @@ world.afterEvents.entityHurt.subscribe((entityHurt) => {
     const { hurtEntity: player, damageSource, damage } = entityHurt;
     if (!(player instanceof Minecraft.Player)) return;
     
-    
-    if (player.getComponent("health").currentValue > 0) return;
+    // @ts-ignore
+    if (player.getComponent("health")?.currentValue > 0) return;
     const { cause, damagingEntity: entity, damagingProjectile: projectile } = damageSource;
     let entityId = undefined, entityName = undefined, projectileName = undefined, entityType = undefined, trans = "death.attack.generic", with_ = [];
     try { entityId = entity?.typeId} catch {}
-    try { entityName = entity?.name || entity?.typeId} catch {}
+    try { entityName = entity?.nameTag || entity?.typeId} catch {}
     try { projectileName = projectile?.typeId} catch {}
     
     if (entityId && entityId.includes("minecraft:")) {
@@ -39,14 +39,15 @@ world.afterEvents.entityHurt.subscribe((entityHurt) => {
     with_.push(player.nameTag);
     if (entityName) with_.push(entityName.replace("minecraft:", ""));
     if (entity instanceof Minecraft.Player) {
-        /** @type {Minecraft.Container} */
+        /** @type {Minecraft.Container} */// @ts-ignore
         const container = entity.getComponent("minecraft:inventory").container;
         const item = container.getItem(entity.selectedSlot);
-        if (item.nameTag) {
+        if (item && item.nameTag) {
             projectileName = "item";
             with_.push(item.nameTag)
         };
     }
+    // @ts-ignore
     try { trans = death[cause][entityType][projectileName] } catch { with_ = [player.nameTag] }
     player.runCommandAsync(`tellraw @a ${JSON.stringify({rawtext: [{text: "§" + world.getDynamicProperty("dyingMessageColor")},{translate: trans, with: with_}]})}`)
 });
@@ -74,7 +75,12 @@ system.afterEvents.scriptEventReceive.subscribe(
     { namespaces: ["uwse"] }
 );
 
-function sendMsg(msg, player = null) {
-    if (player) player.sendMessage(`§7[UWSE]§r ${msg}`);
+/**
+ * 
+ * @param {string} msg 
+ * @param {Minecraft.Player|Minecraft.Entity|undefined} player 
+ */
+function sendMsg(msg, player = undefined) {
+    if (player instanceof Minecraft.Player) player.sendMessage(`§7[UWSE]§r ${msg}`);
         else world.sendMessage(`§7[UWSE]§r ${msg}`);
 }

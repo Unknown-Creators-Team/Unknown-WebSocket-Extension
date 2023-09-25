@@ -1,7 +1,7 @@
 {
   "name": "unknown-websocket-extension",
-  "version": "1.1.0",
-  "description": "",
+  "version": "1.1.1",
+  "description": "> **Note**: この拡張機能は、[Unknown-WebSocket](https://github.com/Unknown-Creators-Team/Unknown-WebSocket)と連携して動作します。\r - キルログの色を変更\r - キルログをUWSに送信",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Unknown-Creators-Team/Unknown-WebSocket-Extension/issues"
   },
-  "homepage": "https://github.com/Unknown-Creators-Team/Unknown-WebSocket-Extension#readme"
+  "homepage": "https://github.com/Unknown-Creators-Team/Unknown-WebSocket-Extension#readme",
+  "dependencies": {
+    "@minecraft/server": "^1.6.0-beta.1.20.30-stable",
+    "@minecraft/server-ui": "^1.2.0-beta.1.20.30-stable"
+  },
+  "devDependencies": {}
 }
