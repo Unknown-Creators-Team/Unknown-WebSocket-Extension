@@ -4,7 +4,7 @@
 		"name": "Unknown WebSocket Extension",
 		"description": "UWS Extension",
 		"uuid": "c8601f06-5b16-480e-81b2-8152442ce1ed",
-		"version": [ 1, 1, 1 ],
+		"version": [ 1, 1, 2 ],
 		"min_engine_version": [ 1, 19, 0 ]
 	},
 	"metadata": {
@@ -28,7 +28,7 @@
 	"dependencies": [
 		{
 			"module_name": "@minecraft/server",
-			"version": "1.6.0-beta"
+			"version": "1.7.0-beta"
 		},
         {
 			"module_name": "@minecraft/server-ui",
