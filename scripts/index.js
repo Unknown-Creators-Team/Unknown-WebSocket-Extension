@@ -3,15 +3,6 @@ import death from "./death";
 
 const { world, system } = Minecraft;
 
-world.afterEvents.worldInitialize.subscribe((worldInitialize) => {
-    const define = new Minecraft.DynamicPropertiesDefinition();
-
-    define.defineBoolean("sendDyingMessage", true);
-    define.defineString("dyingMessageColor", 1, "r");
-
-    worldInitialize.propertyRegistry.registerWorldDynamicProperties(define);
-});
-
 system.runInterval(() => {
     const bool = world.getDynamicProperty("sendDyingMessage");
     if (bool !== undefined)
